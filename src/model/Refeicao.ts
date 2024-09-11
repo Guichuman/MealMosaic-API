@@ -21,19 +21,19 @@ Refeicao.init(
     },
     calorias: {
       type: DataTypes.INTEGER,
-      allowNull: false,
+      allowNull: true,
     },
     horario: {
-      type: DataTypes.DATE,
-      allowNull: false,
+      type: DataTypes.TIME,
+      allowNull: true,
     },
     gorduras: {
       type: DataTypes.INTEGER,
-      allowNull: false,
+      allowNull: true,
     },
     carboidratos: {
       type: DataTypes.INTEGER,
-      allowNull: false,
+      allowNull: true,
     },
     dietaId: {
       type: DataTypes.INTEGER,

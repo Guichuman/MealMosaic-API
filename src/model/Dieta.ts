@@ -24,7 +24,7 @@ Dieta.init(
       allowNull: true,
     },
     data: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.DATE,
       allowNull: false,
     },
     calories: {
@@ -42,6 +42,7 @@ Dieta.init(
     },
     clienteId: {
         type: DataTypes.INTEGER,
+        allowNull: false,
     },
   },
   {

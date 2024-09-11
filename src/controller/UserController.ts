@@ -1,4 +1,4 @@
-import express, { NextFunction, Request, Response } from 'express';
+import express, { NextFunction, Request, response, Response } from 'express';
 import User from '../model/Users';
 import { ModelStatic } from "sequelize";
 import { sendApiResponse } from '../utils/apiResponse';
@@ -37,7 +37,7 @@ class UserController {
 
             let hash = await bcrypt.hash(password, 10)
 
-            const newUser = User.create({
+            const newUser = await User.create({
                 name: name,
                 email: email,
                 password: hash,
@@ -186,6 +186,24 @@ class UserController {
         }
 
         return sendApiResponse(res, 200, "Email válido")
+    }
+
+    async storeResetCode(req: Request, res: Response, userId: string, resetCode: string){
+        try{
+
+            const expirationTime = new Date(Date.now() + 3600000)
+            const user = await User.update({ resetCode, resetCodeExpires: expirationTime }, {
+                where: {
+                    id: userId
+                }
+            })
+    
+            if(user){
+                return sendApiResponse(res, 400, "Código gerado e armazenado")
+            }
+        }catch(error){
+            return sendApiResponse(res, 200, "Erro ao gerar código")
+        }
     }
 
 }

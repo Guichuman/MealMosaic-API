@@ -5,15 +5,6 @@ import { sendApiResponse } from '../utils/apiResponse';
 import * as yup from 'yup'
 import { Op } from 'sequelize';
 
-const bodyValidation = yup.object().shape({
-    description: yup.string().min(5),
-    refs: yup.string().required().min(1),
-    calories: yup.string().min(3),
-    nutrientes: yup.string().min(1),
-    userId: yup.number().integer().required().min(1)
-});
-
-
 class DietaController {
 
     async findAll(req: Request, res: Response): Promise<void>{
@@ -28,17 +19,16 @@ class DietaController {
 
 
     async create(req: Request, res: Response){
-        const {description, refs, userId, nutrientes, status} = req.body || {}
+        const {description, clientId, date} = req.body || {}
 
         try{
-            let validetedData = await bodyValidation.validate(req.body)
+            console.log(clientId)
 
-            const newDieta = Dieta.create({
+            const newDieta = await Dieta.create({
                 description: description,
-                refs: refs,
-                userId: userId,
-                nutrientes: nutrientes,
-                status: 1,
+                data: date,
+                clienteId: clientId,
+                status: 1
             })
 
             if(newDieta !== undefined){
